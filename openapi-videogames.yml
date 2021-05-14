@@ -1,0 +1,88 @@
+openapi: '3.0.2'
+info:
+  title: API Title
+  version: '1.0'
+servers:
+  - url: http://localhost:3000/api
+paths:
+  /videogames:
+    get:
+      tags:
+        - videogames
+      description: obtiene la lista de videojuegos
+      summary: obtiene la lista de videojuegos
+      operationId: getVideogames
+      parameters:
+        - name: search
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ha ido bien. Aqui tienes la lista de videojuegos
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Videogame'
+        '404':
+          description: Error. No ha ido correctamente.
+    post:
+      tags:
+        - videogames
+  /videogames/{id}:
+    get:
+      tags:
+        - videogames
+        - api
+      description: devuelve un videojuego
+      summary: devuelve un videojuego
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '404':
+          description: videojuego no encontrado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    example: 404
+                  error:
+                    type: string
+                    example: dolor sit amet
+        '200':
+          description: ha ido bien. Aqui tienes la el videojuego
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Videogame'
+    put:
+      tags:
+        - videogames
+      
+    delete:
+      tags:
+        - videogames
+
+
+components:
+  schemas:
+    Videogame:
+      required:
+        - nombre
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        nombre:
+          type: string
+          example: lorem ipsum    
